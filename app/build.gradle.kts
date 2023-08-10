@@ -74,6 +74,7 @@ dependencies {
 
     //hilt
     implementation("com.google.dagger:hilt-android:2.44")
+    implementation("com.google.android.gms:play-services-maps:18.1.0")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
 
@@ -91,6 +92,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1")
     implementation("androidx.lifecycle:lifecycle-service:2.6.1")
+
+    //Google play services
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    // Logging dependency
+    implementation("com.jakewharton.timber:timber:5.0.1")
+    implementation("com.datadoghq:dd-sdk-android:1.15.0")
 
     testImplementation ("junit:junit:4+")
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")

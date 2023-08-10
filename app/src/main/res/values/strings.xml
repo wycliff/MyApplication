@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="text_permissions">Permissions</string>
+    <string name="text_permissions_prompt">Weather App requires location permission in order to serve you best, please grant them in the settings. Thank you.</string>
+    <string name="text_exit">Exit</string>
+    <string name="text_grant_permissions">Grant Permissions</string>
+    <string name="text_gps_disabled">GPS Disabled</string>
+    <string name="text_gps_prompt">Your GPS seems to be disabled, please enable it in the next page in order to proceed.</string>
+    <string name="text_enable">Enable</string>
 </resources>

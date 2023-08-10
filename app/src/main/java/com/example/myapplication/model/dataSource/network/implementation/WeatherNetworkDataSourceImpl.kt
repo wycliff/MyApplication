@@ -6,7 +6,6 @@ import com.example.myapplication.model.dataSource.network.apiService.WeatherApiI
 import com.example.myapplication.model.dataSource.network.data.response.CurrentWeather
 import com.example.myapplication.model.dataSource.network.data.response.ErrorResponse
 import com.example.myapplication.model.dataSource.network.data.response.FiveDayWeather
-import com.example.myapplication.model.dataSource.network.data.response.GetReasonsResponse
 import com.example.myapplication.utils.Constants.Companion.METRICS
 import com.haroldadmin.cnradapter.NetworkResponse
 import javax.inject.Inject
