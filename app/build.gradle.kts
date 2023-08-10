@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -45,18 +47,19 @@ android {
         jvmTarget = "1.8"
     }
 
+    val key: String = gradleLocalProperties(rootDir).getProperty("WEATHER_API_KEY")
     flavorDimensions("api")
     productFlavors {
         create("prod") {
             buildConfigField("String", "ENVIRONMENT", "\"prod\"")
             buildConfigField("String", "BASE_URL", "\"https://api.openweathermap.org/data/2.5/forecast\"")
-            buildConfigField("String", "API_KEY", "\"08ffdaa71cf3f2eb4178d607fb42d93a\"")
+            buildConfigField("String", "API_KEY", "\"\"")
         }
 
         create("staging") {
             buildConfigField("String", "ENVIRONMENT", "\"staging\"")
             buildConfigField("String", "BASE_URL", "\"https://api.openweathermap.org/data/2.5/forecast\"")
-            buildConfigField("String", "API_KEY", "\"08ffdaa71cf3f2eb4178d607fb42d93a\"")
+            buildConfigField("String", "API_KEY", key)
         }
     }
 }
