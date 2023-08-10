@@ -19,3 +19,4 @@ local.properties
 report.xml
 /buildSrc/build/
 /keystore.properties
+gradle.properties
