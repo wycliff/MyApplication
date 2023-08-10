@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.di.IoDispatcher
-import com.example.myapplication.model.dataSource.network.data.response.GetReasonsResponse
+import com.example.myapplication.model.dataSource.network.data.response.CurrentWeather
+import com.example.myapplication.model.dataSource.network.data.response.FiveDayWeather
 import com.example.myapplication.model.repository.abstraction.IWeatherRepository
 import com.example.myapplication.view.MainViewState
 import com.haroldadmin.cnradapter.NetworkResponse
@@ -21,31 +22,38 @@ class WeatherViewModel(
     private val repository: IWeatherRepository,
 ) : ViewModel() {
 
-    private val _reallocationReasons = MutableLiveData<GetReasonsResponse>()
-    val reallocationReasons: LiveData<GetReasonsResponse> get() = _reallocationReasons
+
+    //current weather data
+    private val _currentWeather = MutableLiveData<CurrentWeather>()
+    val currentWeather: LiveData<CurrentWeather> get() = _currentWeather
+
+    //five day weather
+    private val _fiveDayWeather = MutableLiveData<FiveDayWeather>()
+    val fiveDayWeather: LiveData<FiveDayWeather> get() = _fiveDayWeather
+
 
     private val _state = MutableLiveData<MainViewState>()
     val state: LiveData<MainViewState>
         get() = _state
 
-    fun fetchReallocationReasons(
-        partnerId: String?,
-        vendorType: String?,
-        country: String?
+
+    fun getCurrentWeather(
+        lat: String?,
+        long: String
     ) {
         viewModelScope.launch(iODispatcher) {
             _state.postValue(MainViewState.Loading)
-            when (val result = repository.getReasons(
-                partnerId,
-                country
+            when (val result = repository.getCurrentWeather(
+                lat, long
             )) {
 
                 is NetworkResponse.Success -> {
                     _state.postValue(MainViewState.Success)
                     result.body.let {
-                        _reallocationReasons.postValue(it)
+                        _currentWeather.postValue(it)
                     }
                 }
+
                 is NetworkResponse.ServerError -> {
                     _state.postValue(
                         MainViewState.Error(
@@ -53,19 +61,21 @@ class WeatherViewModel(
                         )
                     )
                 }
+
                 is NetworkResponse.NetworkError -> {
                     _state.postValue(
                         MainViewState.Error(
-                            "Error",
+                            result.error.message,
                             null,
                             null
                         )
                     )
                 }
+
                 is NetworkResponse.UnknownError -> {
                     _state.postValue(
                         MainViewState.Error(
-                            "error",
+                            "Something went wrong please try again later",
                             null,
                             null
                         )
@@ -76,5 +86,53 @@ class WeatherViewModel(
         }
     }
 
+    fun getFiveDayWeather(
+        lat: String?,
+        long: String
+    ) {
+        viewModelScope.launch(iODispatcher) {
+            _state.postValue(MainViewState.Loading)
+            when (val result = repository.getFiveDayWeather(
+                lat, long
+            )) {
+
+                is NetworkResponse.Success -> {
+                    _state.postValue(MainViewState.Success)
+                    result.body.let {
+                        _fiveDayWeather.postValue(it)
+                    }
+                }
+
+                is NetworkResponse.ServerError -> {
+                    _state.postValue(
+                        MainViewState.Error(
+                            null, result.body?.message, null
+                        )
+                    )
+                }
+
+                is NetworkResponse.NetworkError -> {
+                    _state.postValue(
+                        MainViewState.Error(
+                            result.error.message,
+                            null,
+                            null
+                        )
+                    )
+                }
+
+                is NetworkResponse.UnknownError -> {
+                    _state.postValue(
+                        MainViewState.Error(
+                            "Something went wrong please try again later",
+                            null,
+                            null
+                        )
+                    )
+                }
+            }
+
+        }
+    }
 
 }

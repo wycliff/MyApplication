@@ -3,6 +3,8 @@ package com.example.myapplication.di
 import com.example.myapplication.model.dataSource.network.abstraction.IWeatherNetworkDataSource
 import com.example.myapplication.model.dataSource.network.apiService.WeatherApiInterface
 import com.example.myapplication.model.dataSource.network.implementation.WeatherNetworkDataSourceImpl
+import com.example.myapplication.model.repository.abstraction.IWeatherRepository
+import com.example.myapplication.model.repository.implementation.WeatherRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -27,5 +29,8 @@ object MainModule {
 @InstallIn(ActivityRetainedComponent::class)
 abstract class MainBindingModule {
     @Binds
-    abstract fun bindReasonNetworkDataSourceImpl(impl: WeatherNetworkDataSourceImpl): IWeatherNetworkDataSource
+    abstract fun bindWeatherNetworkDataSourceImpl(impl: WeatherNetworkDataSourceImpl): IWeatherNetworkDataSource
+
+    @Binds
+    abstract fun bindWeatherNetworkRepositorySourceImpl(impl: WeatherRepositoryImpl): IWeatherRepository
 }

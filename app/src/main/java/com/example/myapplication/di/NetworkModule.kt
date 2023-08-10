@@ -104,6 +104,7 @@ object NetworkModule {
 
 }
 
+//todo : remove
 class GsonUTCDateAdapter : JsonSerializer<Date?>, JsonDeserializer<Date?> {
     private val dateFormat: DateFormat
 

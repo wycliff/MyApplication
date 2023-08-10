@@ -49,12 +49,14 @@ android {
     productFlavors {
         create("prod") {
             buildConfigField("String", "ENVIRONMENT", "\"prod\"")
-            buildConfigField("String", "BASE_URL", "\"https://partner-bff.sendyit.com/api/v1/\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.openweathermap.org/data/2.5/forecast\"")
+            buildConfigField("String", "API_KEY", "\"08ffdaa71cf3f2eb4178d607fb42d93a\"")
         }
 
         create("staging") {
             buildConfigField("String", "ENVIRONMENT", "\"staging\"")
-            buildConfigField("String", "BASE_URL", "\"https://partner-bff-test.sendyit.com/api/v1/\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.openweathermap.org/data/2.5/forecast\"")
+            buildConfigField("String", "API_KEY", "\"08ffdaa71cf3f2eb4178d607fb42d93a\"")
         }
     }
 }
