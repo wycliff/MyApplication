@@ -1,6 +1,7 @@
 package com.example.myapplication.di
 
 
+import dagger.Provides
 import javax.inject.Qualifier
 
 @Qualifier

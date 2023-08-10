@@ -9,6 +9,6 @@ object BuildPlugins {
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20"
     const val navSafeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2"
     const val googleServicesPlugin = "com.google.gms:google-services:4.3.15"
-    const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:2.38.1"
+    const val hiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:2.44"
     const val junit5 = "de.mannodermaus.gradle.plugins:android-junit5:1.8.2.0"
 }

@@ -48,17 +48,18 @@ android {
     }
 
     val key: String = gradleLocalProperties(rootDir).getProperty("WEATHER_API_KEY")
+
     flavorDimensions("api")
     productFlavors {
         create("prod") {
             buildConfigField("String", "ENVIRONMENT", "\"prod\"")
-            buildConfigField("String", "BASE_URL", "\"https://api.openweathermap.org/data/2.5/forecast\"")
-            buildConfigField("String", "API_KEY", "\"\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.openweathermap.org/data/2.5/\"")
+            buildConfigField("String", "API_KEY", key)
         }
 
         create("staging") {
             buildConfigField("String", "ENVIRONMENT", "\"staging\"")
-            buildConfigField("String", "BASE_URL", "\"https://api.openweathermap.org/data/2.5/forecast\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.openweathermap.org/data/2.5/\"")
             buildConfigField("String", "API_KEY", key)
         }
     }
@@ -72,8 +73,8 @@ dependencies {
     implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
 
     //hilt
-    implementation("com.google.dagger:hilt-android:2.38.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     // Retrofit dependencies
@@ -94,5 +95,9 @@ dependencies {
     testImplementation ("junit:junit:4+")
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
+}
+
+kapt {
+    correctErrorTypes = true
 }
 

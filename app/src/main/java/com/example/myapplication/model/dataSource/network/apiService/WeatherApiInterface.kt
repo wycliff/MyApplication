@@ -16,7 +16,7 @@ interface WeatherApiInterface {
         @Query("countryCode") countryCode: String?,
     ): NetworkResponse<GetReasonsResponse, ErrorResponse>
 
-    @GET
+    @GET("forecast")
     suspend fun getCurrentWeather(
         @Query("lat") lat: String?,
         @Query("lon") long: String?,
@@ -24,7 +24,7 @@ interface WeatherApiInterface {
         @Query("units") units: String?,
     ): NetworkResponse<CurrentWeather, ErrorResponse>
 
-    @GET
+    @GET("forecast")
     suspend fun getFiveDayWeather(
         @Query("lat") lat: String?,
         @Query("lon") long: String?,

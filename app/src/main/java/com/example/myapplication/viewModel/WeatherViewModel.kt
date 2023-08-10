@@ -13,11 +13,11 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 @HiltViewModel
-class WeatherViewModel(
-    @IoDispatcher
+class WeatherViewModel @Inject constructor(
     private val iODispatcher: CoroutineDispatcher,
     private val repository: IWeatherRepository,
 ) : ViewModel() {

@@ -11,6 +11,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -23,6 +25,10 @@ object MainModule {
     fun provideReasonsApiService(
         retrofit: Retrofit,
     ): WeatherApiInterface = retrofit.create(WeatherApiInterface::class.java)
+
+    @Singleton
+    @Provides
+    fun provideIODispatcher(): CoroutineDispatcher = Dispatchers.IO
 }
 
 @Module
