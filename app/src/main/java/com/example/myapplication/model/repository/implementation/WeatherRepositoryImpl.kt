@@ -12,13 +12,6 @@ import javax.inject.Inject
 class WeatherRepositoryImpl @Inject constructor(
     private val weatherNetworkDataSource: IWeatherNetworkDataSource,
     ) : IWeatherRepository {
-    override suspend fun getReasons(
-        partnerId: String?,
-        countryCode: String?
-    ): NetworkResponse<GetReasonsResponse, ErrorResponse> {
-        return weatherNetworkDataSource.getReasons(partnerId, countryCode)
-    }
-
     override suspend fun getCurrentWeather(
         lat: String?,
         long: String?

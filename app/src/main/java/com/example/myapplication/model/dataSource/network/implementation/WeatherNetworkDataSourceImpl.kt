@@ -14,12 +14,6 @@ import javax.inject.Inject
 class WeatherNetworkDataSourceImpl @Inject constructor(
     private val apiInterface: WeatherApiInterface,
 ) : IWeatherNetworkDataSource {
-    override suspend fun getReasons(
-        partnerId: String?,
-        countryCode: String?,
-    ): NetworkResponse<GetReasonsResponse, ErrorResponse> {
-        return apiInterface.getReasons(partnerId = partnerId, countryCode = countryCode)
-    }
 
     override suspend fun getCurrentWeather(
         lat: String?,

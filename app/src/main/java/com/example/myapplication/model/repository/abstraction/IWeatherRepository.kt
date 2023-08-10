@@ -7,11 +7,6 @@ import com.example.myapplication.model.dataSource.network.data.response.GetReaso
 import com.haroldadmin.cnradapter.NetworkResponse
 
 interface IWeatherRepository {
-    suspend fun getReasons(
-        partnerId: String?,
-        countryCode: String?
-    ): NetworkResponse<GetReasonsResponse, ErrorResponse>
-
     suspend fun getCurrentWeather(
         lat: String?,
         long: String?

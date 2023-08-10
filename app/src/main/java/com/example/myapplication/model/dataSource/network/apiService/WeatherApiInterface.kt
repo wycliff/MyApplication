@@ -10,12 +10,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WeatherApiInterface {
-    @GET("partners/{partnerId}/orders/waypoint/failure-reasons")
-    suspend fun getReasons(
-        @Path("partnerId") partnerId: String?,
-        @Query("countryCode") countryCode: String?,
-    ): NetworkResponse<GetReasonsResponse, ErrorResponse>
-
     @GET("forecast")
     suspend fun getCurrentWeather(
         @Query("lat") lat: String?,
