@@ -4,19 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity"
-    android:background="@color/bg_sunny_secondary">
+    android:background="@color/bg_sunny_secondary"
+    tools:context=".view.MainActivity">
 
     <LinearLayout
         android:id="@+id/linear1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/bg_forest_sunny"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/linear2"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/bg_forest_sunny">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!--Do Your Stuff -->
+
+        <TextView
+            android:id="@+id/tv_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:letterSpacing="0.05"
+            android:textColor="@color/white"
+            android:textFontWeight="900"
+            android:textSize="60sp"
+            app:layout_constraintBottom_toBottomOf="@+id/pu_package_item"
+            app:layout_constraintEnd_toStartOf="@+id/arrow"
+            app:layout_constraintStart_toEndOf="@+id/pu_package_item"
+            app:layout_constraintTop_toTopOf="@+id/pu_package_item"
+            tools:text="@string/text_degrees" />
+
+        <TextView
+            android:id="@+id/tv_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:letterSpacing="0.05"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/pu_package_item"
+            app:layout_constraintEnd_toStartOf="@+id/arrow"
+            app:layout_constraintStart_toEndOf="@+id/pu_package_item"
+            app:layout_constraintTop_toTopOf="@+id/pu_package_item"
+            tools:text="SUNNY" />
 
     </LinearLayout>
 
@@ -24,13 +55,136 @@
         android:id="@+id/linear2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/bg_sunny_secondary"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear1"
-        android:background="@color/bg_sunny_secondary">
+        app:layout_constraintTop_toBottomOf="@id/linear1">
 
-        <!--Do Your Stuff-->
+        <LinearLayout
+            android:id="@+id/ll_temperatures"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/bg_sunny_secondary"
+            android:orientation="horizontal">
 
+            <LinearLayout
+                android:id="@+id/ll_min_temp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/linear2"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <TextView
+                    android:id="@+id/tv_min_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:letterSpacing="0.05"
+                    android:text="@string/text_degrees"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    tools:text="@string/text_degrees" />
+
+                <TextView
+                    android:id="@+id/tv_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="@string/text_min"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:text="min" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_current_temp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/linear2"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <TextView
+                    android:id="@+id/tv_current_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:letterSpacing="0.05"
+                    android:text="@string/text_degrees"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    tools:text="@string/text_degrees" />
+
+                <TextView
+                    android:id="@+id/tv_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="@string/text_current"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_max_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/linear2"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+                <TextView
+                    android:id="@+id/tv_max_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:letterSpacing="0.05"
+                    android:text="@string/text_degrees"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    tools:text="@string/text_degrees" />
+
+                <TextView
+                    android:id="@+id/tv_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:text="@string/text_max"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_five_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
