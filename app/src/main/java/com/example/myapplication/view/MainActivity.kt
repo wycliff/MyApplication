@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentSender
 import android.location.Location
-import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -40,26 +39,22 @@ import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import java.text.DateFormat
-import java.util.Date
 
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: WeatherViewModel
-    private var locationManager: LocationManager? = null
 
     //Location
     private var requestingLocationUpdates: Boolean? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var mSettingsClient: SettingsClient
-    private lateinit var mLocationRequest: LocationRequest
-    private lateinit var mLocationCallback: LocationCallback
+    private lateinit var settingsClient: SettingsClient
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
     private var currentLatLng: LatLng? = null
     private var currentLocation: Location? = null
-    private lateinit var mLocationSettingsRequest: LocationSettingsRequest
-    private var mLastUpdateTime: String? = null
+    private lateinit var locationSettingsRequest: LocationSettingsRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         requestingLocationUpdates = false
         fusedLocationClient =
             LocationServices.getFusedLocationProviderClient(this)
-        mSettingsClient = LocationServices.getSettingsClient(this)
+        settingsClient = LocationServices.getSettingsClient(this)
         createLocationCallback()
         createLocationRequest()
         buildLocationSettingsRequest()
@@ -102,28 +97,6 @@ class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun requestLocPermissions() {
-        val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(
-            this@MainActivity,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        )
-
-        if (shouldProvideRationale) {
-            if (!locationPermissionGranted(this)) {
-                permissionRequiredDialog()
-            }
-
-        } else {
-            requestPermissions(
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ),
-                REQUEST_CODE_LOCATION_PERMISSIONS
-            )
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun requestPermission() {
         val shouldProvideRationale = ActivityCompat.shouldShowRequestPermissionRationale(
             this@MainActivity,
             Manifest.permission.ACCESS_FINE_LOCATION
@@ -225,21 +198,21 @@ class MainActivity : AppCompatActivity() {
      */
     private fun buildLocationSettingsRequest() {
         val builder = LocationSettingsRequest.Builder()
-        builder.addLocationRequest(mLocationRequest)
-        mLocationSettingsRequest = builder.build()
+        builder.addLocationRequest(locationRequest)
+        locationSettingsRequest = builder.build()
     }
 
     /**
      * Creates a callback for receiving location events.
      */
     private fun createLocationCallback() {
-        mLocationCallback = object : LocationCallback() {
+        locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
                 currentLocation = locationResult.lastLocation
                 currentLatLng = locationResult.lastLocation?.latitude?.let { lat ->
                     locationResult.lastLocation?.longitude?.let { long ->
-                        //todo: call weather functions here
+
                         val latitude = lat.toString()
                         val longitude = long.toString()
                         viewModel.getCurrentWeather(latitude, longitude)
@@ -251,16 +224,15 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
                 }
-                mLastUpdateTime = DateFormat.getTimeInstance().format(Date()) //todo : remove
             }
         }
     }
 
     private fun createLocationRequest() {
-        mLocationRequest = LocationRequest()
-        mLocationRequest.interval = UPDATE_INTERVAL_IN_MILLISECONDS
-        mLocationRequest.fastestInterval = FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
-        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest = LocationRequest()
+        locationRequest.interval = UPDATE_INTERVAL_IN_MILLISECONDS
+        locationRequest.fastestInterval = FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
 
     /**
@@ -278,12 +250,12 @@ class MainActivity : AppCompatActivity() {
         builder.setAlwaysShow(true)
 
         // Begin by checking if the device has the necessary location settings.
-        mSettingsClient.checkLocationSettings(mLocationSettingsRequest)
+        settingsClient.checkLocationSettings(locationSettingsRequest)
             .addOnSuccessListener(this) {
                 Looper.myLooper()?.let { it1 ->
                     fusedLocationClient.requestLocationUpdates(
-                        mLocationRequest,
-                        mLocationCallback, it1
+                        this.locationRequest,
+                        locationCallback, it1
                     )
                 }
 
@@ -291,7 +263,6 @@ class MainActivity : AppCompatActivity() {
             .addOnFailureListener(this) { e ->
                 when ((e as ApiException).statusCode) {
                     LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
-
                         try {
                             // Show the dialog by calling startResolutionForResult(), and check the
                             // result in onActivityResult().
