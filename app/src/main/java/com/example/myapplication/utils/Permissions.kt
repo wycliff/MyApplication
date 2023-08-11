@@ -18,11 +18,6 @@ object Permissions {
         return ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
-
-    fun requestLocationPermission(activity: Activity, requestCode: Int) {
-        ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), requestCode)
-    }
-
     fun request(activity: Activity?, permission: String, requestCode: Int) {
         if (activity != null) {
             ActivityCompat.requestPermissions(activity, arrayOf(permission), requestCode)
