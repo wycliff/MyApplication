@@ -103,6 +103,7 @@ class MainActivity : AppCompatActivity() {
     private fun addObservers() {
         observe(viewModel.state, ::onViewStateChanged)
         observe(viewModel.fiveDayWeather, ::onFiveDayWeatherChanged)
+        observe(viewModel.currentWeather, ::onCurrentWeather)
     }
 
     private fun onFiveDayWeatherChanged(fiveDayWeather: FiveDayWeather) {
@@ -110,6 +111,17 @@ class MainActivity : AppCompatActivity() {
         fiveDayWeather.list?.let {
             Timber.e("GETTING HERE 2")
             setUpRecyclerView(it) }
+    }
+
+    private fun onCurrentWeather(currentWeather: CurrentWeather) {
+        binding?.tvTemp?.text = String.format(getString(R.string.text_degrees), currentWeather.main?.temp)
+        binding?.tvWeather?.text = currentWeather.weather?.get(0)?.main
+
+        binding?.tvMinTemp?.text =String.format(getString(R.string.text_degrees), currentWeather.main?.tempMin)
+        binding?.tvCurrent?.text = String.format(getString(R.string.text_degrees), currentWeather.main?.temp)
+        binding?.tvMaxTemp?.text = String.format(getString(R.string.text_degrees), currentWeather.main?.tempMax)
+
+        viewModel.getFiveDayWeather(currentLocation?.latitude.toString(), currentLocation?.longitude.toString())
     }
 
     private fun setUpRecyclerView(weatherItemsArray: List<CurrentWeather>) {
@@ -249,7 +261,6 @@ class MainActivity : AppCompatActivity() {
                         val latitude = lat.toString()
                         val longitude = long.toString()
                         viewModel.getCurrentWeather(latitude, longitude)
-                        viewModel.getFiveDayWeather(latitude, longitude)
 
                         LatLng(
                             lat,
