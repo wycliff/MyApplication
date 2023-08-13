@@ -22,7 +22,8 @@ class WeatherNetworkDataSourceImpl @Inject constructor(
             lat = lat,
             long = long,
             appId = BuildConfig.API_KEY,
-            units = METRICS
+            units = METRICS,
+            count = 0
         )
     }
 
