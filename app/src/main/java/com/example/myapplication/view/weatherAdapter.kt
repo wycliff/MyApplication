@@ -1,102 +1,80 @@
 package com.example.myapplication.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.model.dataSource.network.data.response.CurrentWeather
-import java.util.ArrayList
-import java.util.Locale
+import com.example.myapplication.utils.Constants.Companion.CLOUDY
+import com.example.myapplication.utils.Constants.Companion.RAINY
+import com.example.myapplication.utils.Constants.Companion.SUNNY
+import com.example.myapplication.utils.DateTimeUtils.Companion.formatStringToDate
+import com.example.myapplication.utils.DateTimeUtils.Companion.getDayOfWeek
 
 
 class WeatherListAdapter(
-    private val vehiclesList: List<CurrentWeather>,
-    private val itemClickListener: MainActivity
-) /*: RecyclerView.WeatherListAdapter.ViewHolder>() , Filterable */{
+    private val weatherList: List<CurrentWeather>
+) : RecyclerView.Adapter<WeatherListAdapter.ViewHolder>() {
 
-//    private lateinit var context: Context
+    private lateinit var context: Context
 //    private var weathersListFiltered: List<CurrentWeather>
-//
-//
 //    init {
 //        this.weatherListFiltered = vehiclesList
 //    }
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-//        context = parent.context
-//        val v = LayoutInflater.from(context).inflate(R.layout.row_weather_item, parent, false)
-//
-//        return RecyclerView.ViewHolder(v)
-//    }
-//
-//    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        val packageItem = vehiclesListFiltered[position]
-//
-//
-//        holder.vendorType.text = packageItem.vendorType?.displayName
-//        holder.regNo.text = packageItem.registrationNumber
-//        holder.vendorTypeIcon.loadSvgOrOther(packageItem.vendorType?.icon)
-//        holder.bind(packageItem, itemClickListener, holder.itemView, position)
-//
-//        when (packageItem.isValid) {
-//
-//            true -> {
-//                holder.isValid.text = context.resources.getString(R.string.valid)
-//                holder.isValid.setBackgroundResource(R.drawable.bg_submitted_doc)
-//                holder.isValid.setTextColor(
-//                    ContextCompat.getColor(
-//                        context,
-//                        R.color.sendyTertiaryBrand
-//                    )
-//                )
-//            }
-//            false -> {
-//                holder.isValid.text = context.resources.getString(R.string.in_valid)
-//                holder.isValid.setBackgroundResource(R.drawable.bg_document_alert)
-//                holder.isValid.setTextColor(
-//                    ContextCompat.getColor(
-//                        context,
-//                        R.color.sendyRejected
-//                    )
-//                )
-//
-//            }
-//            else -> {}
-//        }
-//    }
-//
-//    override fun getItemCount(): Int {
-//        return vehiclesListFiltered.size
-//    }
-//
-//    interface OnItemClickListener {
-//        fun onItemClick(vehicle: Vehicle?, position: Int)
-//    }
-//
-//    inner class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
-//        //val vendorType: TextView = itemView.findViewById(R.id.tv_vendor_type)
-//
-//
-//        fun bind(
-//            vehicle: Vehicle?,
-//            clickListener: OnItemClickListener,
-//            itemView: View,
-//            position: Int
-//        ) {
-//            itemView.setOnClickListener {
-//                clickListener.onItemClick(vehicle, position)
-//            }
-//        }
-//    }
-//
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        context = parent.context
+        val v = LayoutInflater.from(context).inflate(R.layout.row_weather_item, parent, false)
+
+        return ViewHolder(v)
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val weatherItem = weatherList[position]
+
+        holder.tvWeekDay.text = getDayOfWeek(formatStringToDate(weatherItem.date))
+        holder.tvTemp.text =
+            String.format(
+                context.getString(R.string.text_degrees),
+                weatherItem.main?.temp.toString()
+            )
+
+        when (weatherItem.weather?.get(0)?.main) {
+            CLOUDY -> {
+                holder.weatherIcon.setImageDrawable(context.getDrawable(R.drawable.ic_cloudy))
+            }
+
+            SUNNY -> {
+                holder.weatherIcon.setImageDrawable(context.getDrawable(R.drawable.ic_clear))
+            }
+
+            RAINY -> {
+                holder.weatherIcon.setImageDrawable(context.getDrawable(R.drawable.ic_rainy))
+            }
+
+            else -> {
+                holder.weatherIcon.setImageDrawable(context.getDrawable(R.drawable.ic_clear))
+            }
+        }
+    }
+
+
+    override fun getItemCount(): Int {
+        return weatherList.size
+    }
+
+    inner class ViewHolder(rootView: View) : RecyclerView.ViewHolder(rootView) {
+        val tvWeekDay: TextView = itemView.findViewById(R.id.tv_week_day)
+        val weatherIcon: ImageView = itemView.findViewById(R.id.iv_weather_icon)
+        val tvTemp: TextView = itemView.findViewById(R.id.tv_temp)
+    }
+
 //    override fun getFilter(): Filter {
 //        return object : Filter() {
 //            override fun performFiltering(charSequence: CharSequence): FilterResults {
@@ -130,6 +108,4 @@ class WeatherListAdapter(
 //            }
 //        }
 //    }
-
-
 }

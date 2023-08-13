@@ -13,6 +13,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -97,6 +98,7 @@ class WeatherViewModel @Inject constructor(
             )) {
 
                 is NetworkResponse.Success -> {
+                    Timber.e("GETTING HERE A")
                     _state.postValue(MainViewState.Success)
                     result.body.let {
                         _fiveDayWeather.postValue(it)

@@ -7,7 +7,7 @@
     <string name="text_gps_disabled">GPS Disabled</string>
     <string name="text_gps_prompt">Your GPS seems to be disabled, please enable it in the next page in order to proceed.</string>
     <string name="text_enable">Enable</string>
-    <string name="text_degrees">23&#176;</string>
+    <string name="text_degrees">%s&#176;</string>
     <string name="text_min">min</string>
     <string name="text_current">current</string>
     <string name="text_max">max</string>

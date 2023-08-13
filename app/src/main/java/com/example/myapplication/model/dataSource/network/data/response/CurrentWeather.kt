@@ -18,7 +18,9 @@ data class CurrentWeather(
     @SerializedName("timezone")
     val timezone: Int?,
     @SerializedName("weather")
-    val weather: List<Weather?>?
+    val weather: List<Weather?>?,
+    @SerializedName("dt_txt")
+    val date: String?
 )
 
 data class Coord(

@@ -17,7 +17,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
+import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.model.dataSource.network.data.response.CurrentWeather
+import com.example.myapplication.model.dataSource.network.data.response.FiveDayWeather
 import com.example.myapplication.utils.AppUtil.hasGps
 import com.example.myapplication.utils.Constants.Companion.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
 import com.example.myapplication.utils.Constants.Companion.REQUEST_CHECK_SETTINGS
@@ -46,6 +50,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: WeatherViewModel
 
+    //View binding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding
+
     //Location
     private var requestingLocationUpdates: Boolean? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -55,6 +63,10 @@ class MainActivity : AppCompatActivity() {
     private var currentLatLng: LatLng? = null
     private var currentLocation: Location? = null
     private lateinit var locationSettingsRequest: LocationSettingsRequest
+
+    //RecyclerView
+    private var layoutManager: LinearLayoutManager? = null
+    private lateinit var weatherAdapter: WeatherListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +102,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun addObservers() {
         observe(viewModel.state, ::onViewStateChanged)
+        observe(viewModel.fiveDayWeather, ::onFiveDayWeatherChanged)
+    }
+
+    private fun onFiveDayWeatherChanged(fiveDayWeather: FiveDayWeather) {
+        Timber.e("GETTING HERE 1")
+        fiveDayWeather.list?.let {
+            Timber.e("GETTING HERE 2")
+            setUpRecyclerView(it) }
+    }
+
+    private fun setUpRecyclerView(weatherItemsArray: List<CurrentWeather>) {
+        Timber.e("GETTING HERE 3")
+        weatherAdapter =
+            WeatherListAdapter(
+                weatherItemsArray
+            )
+        layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        binding?.rvFiveDay?.isNestedScrollingEnabled = false
+        binding?.rvFiveDay?.adapter = weatherAdapter
     }
 
     private fun onViewStateChanged(state: MainViewState) {
