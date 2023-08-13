@@ -6,7 +6,7 @@ import com.example.myapplication.model.dataSource.network.apiService.WeatherApiI
 import com.example.myapplication.model.dataSource.network.data.response.CurrentWeather
 import com.example.myapplication.model.dataSource.network.data.response.ErrorResponse
 import com.example.myapplication.model.dataSource.network.data.response.FiveDayWeather
-import com.example.myapplication.utils.Constants.Companion.METRICS
+import com.example.myapplication.utils.Constants.Companion.METRIC
 import com.haroldadmin.cnradapter.NetworkResponse
 import javax.inject.Inject
 
@@ -22,8 +22,7 @@ class WeatherNetworkDataSourceImpl @Inject constructor(
             lat = lat,
             long = long,
             appId = BuildConfig.API_KEY,
-            units = METRICS,
-            count = 0
+            units = METRIC
         )
     }
 
@@ -35,8 +34,8 @@ class WeatherNetworkDataSourceImpl @Inject constructor(
             lat = lat,
             long = long,
             appId = BuildConfig.API_KEY,
-            units = METRICS,
-            count = 40
+            units = METRIC,
+            count = 20
         )
     }
 }

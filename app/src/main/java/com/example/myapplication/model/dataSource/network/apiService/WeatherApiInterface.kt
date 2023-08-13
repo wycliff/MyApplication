@@ -10,13 +10,12 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WeatherApiInterface {
-    @GET("forecast")
+    @GET("weather")
     suspend fun getCurrentWeather(
         @Query("lat") lat: String?,
         @Query("lon") long: String?,
         @Query("appid") appId: String?,
         @Query("units") units: String?,
-        @Query("cnt") count: Int?,
     ): NetworkResponse<CurrentWeather, ErrorResponse>
 
     @GET("forecast")
