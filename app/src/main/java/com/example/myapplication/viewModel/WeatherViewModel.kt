@@ -98,7 +98,6 @@ class WeatherViewModel @Inject constructor(
             )) {
 
                 is NetworkResponse.Success -> {
-                    Timber.e("GETTING HERE A")
                     _state.postValue(MainViewState.Success)
                     result.body.let {
                         _fiveDayWeather.postValue(it)

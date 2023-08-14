@@ -43,6 +43,7 @@ import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -70,7 +71,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding?.root
+        setContentView(view)
+
         viewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
         supportActionBar?.hide()
         initViews()
@@ -110,18 +114,27 @@ class MainActivity : AppCompatActivity() {
         Timber.e("GETTING HERE 1")
         fiveDayWeather.list?.let {
             Timber.e("GETTING HERE 2")
-            setUpRecyclerView(it) }
+            setUpRecyclerView(it)
+        }
     }
 
     private fun onCurrentWeather(currentWeather: CurrentWeather) {
-        binding?.tvTemp?.text = String.format(getString(R.string.text_degrees), currentWeather.main?.temp)
-        binding?.tvWeather?.text = currentWeather.weather?.get(0)?.main
 
-        binding?.tvMinTemp?.text =String.format(getString(R.string.text_degrees), currentWeather.main?.tempMin)
-        binding?.tvCurrent?.text = String.format(getString(R.string.text_degrees), currentWeather.main?.temp)
-        binding?.tvMaxTemp?.text = String.format(getString(R.string.text_degrees), currentWeather.main?.tempMax)
+        binding?.tvTemp?.text =
+            "${currentWeather.main?.temp.toString()}${getString(R.string.text_degrees)}"
+        binding?.tvWeather?.text = currentWeather.weather?.get(0)?.main?.uppercase(Locale.ROOT)
 
-        viewModel.getFiveDayWeather(currentLocation?.latitude.toString(), currentLocation?.longitude.toString())
+        binding?.tvMinTemp?.text =
+            "${currentWeather.main?.tempMin.toString()}${getString(R.string.text_degrees)}"
+        binding?.tvCurrentTemp?.text =
+            "${currentWeather.main?.temp.toString()}${getString(R.string.text_degrees)}"
+        binding?.tvMaxTemp?.text =
+            "${currentWeather.main?.tempMax.toString()}${getString(R.string.text_degrees)}"
+
+        viewModel.getFiveDayWeather(
+            currentLocation?.latitude.toString(),
+            currentLocation?.longitude.toString()
+        )
     }
 
     private fun setUpRecyclerView(weatherItemsArray: List<CurrentWeather>) {

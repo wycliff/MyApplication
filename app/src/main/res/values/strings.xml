@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Weather Forecast</string>
     <string name="text_permissions">Permissions</string>
     <string name="text_permissions_prompt">Weather App requires location permission in order to serve you best, please grant them in the settings. Thank you.</string>
     <string name="text_exit">Exit</string>
@@ -7,7 +7,7 @@
     <string name="text_gps_disabled">GPS Disabled</string>
     <string name="text_gps_prompt">Your GPS seems to be disabled, please enable it in the next page in order to proceed.</string>
     <string name="text_enable">Enable</string>
-    <string name="text_degrees">%s&#176;</string>
+    <string name="text_degrees">&#176;</string>
     <string name="text_min">min</string>
     <string name="text_current">current</string>
     <string name="text_max">max</string>

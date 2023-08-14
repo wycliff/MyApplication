@@ -42,7 +42,7 @@
             android:gravity="center"
             android:letterSpacing="0.05"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/pu_package_item"
             app:layout_constraintEnd_toStartOf="@+id/arrow"
             app:layout_constraintStart_toEndOf="@+id/pu_package_item"

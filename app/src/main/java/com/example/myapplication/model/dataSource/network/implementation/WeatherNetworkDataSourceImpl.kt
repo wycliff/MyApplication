@@ -8,6 +8,7 @@ import com.example.myapplication.model.dataSource.network.data.response.ErrorRes
 import com.example.myapplication.model.dataSource.network.data.response.FiveDayWeather
 import com.example.myapplication.utils.Constants.Companion.METRIC
 import com.haroldadmin.cnradapter.NetworkResponse
+import timber.log.Timber
 import javax.inject.Inject
 
 class WeatherNetworkDataSourceImpl @Inject constructor(

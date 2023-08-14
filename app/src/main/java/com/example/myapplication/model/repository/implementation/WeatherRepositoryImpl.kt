@@ -4,14 +4,13 @@ import com.example.myapplication.model.dataSource.network.abstraction.IWeatherNe
 import com.example.myapplication.model.dataSource.network.data.response.CurrentWeather
 import com.example.myapplication.model.dataSource.network.data.response.ErrorResponse
 import com.example.myapplication.model.dataSource.network.data.response.FiveDayWeather
-import com.example.myapplication.model.dataSource.network.data.response.GetReasonsResponse
 import com.example.myapplication.model.repository.abstraction.IWeatherRepository
 import com.haroldadmin.cnradapter.NetworkResponse
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
     private val weatherNetworkDataSource: IWeatherNetworkDataSource,
-    ) : IWeatherRepository {
+) : IWeatherRepository {
     override suspend fun getCurrentWeather(
         lat: String?,
         long: String?
