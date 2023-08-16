@@ -40,10 +40,7 @@ class WeatherListAdapter(
 
         holder.tvWeekDay.text = getDayOfWeek(formatStringToDate(weatherItem.date))
         holder.tvTemp.text =
-            String.format(
-                context.getString(R.string.text_degrees),
-                weatherItem.main?.temp.toString()
-            )
+            "${weatherItem.main?.temp.toString()}${context.getString(R.string.text_degrees)}"
 
         when (weatherItem.weather?.get(0)?.main) {
             CLOUDY -> {
