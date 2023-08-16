@@ -111,9 +111,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onFiveDayWeatherChanged(fiveDayWeather: FiveDayWeather) {
-        Timber.e("GETTING HERE 1")
+        Timber.e("GETTING HERE FOREST: "+fiveDayWeather.list?.size)
         fiveDayWeather.list?.let {
-            Timber.e("GETTING HERE 2")
             setUpRecyclerView(it)
         }
     }
@@ -138,7 +137,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpRecyclerView(weatherItemsArray: List<CurrentWeather>) {
-        Timber.e("GETTING HERE 3")
         weatherAdapter =
             WeatherListAdapter(
                 weatherItemsArray
@@ -146,6 +144,7 @@ class MainActivity : AppCompatActivity() {
         layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding?.rvFiveDay?.isNestedScrollingEnabled = false
+        binding?.rvFiveDay?.layoutManager = layoutManager
         binding?.rvFiveDay?.adapter = weatherAdapter
     }
 

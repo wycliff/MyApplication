@@ -44,7 +44,7 @@ class DateTimeUtils {
         @Throws(ParseException::class)
         fun formatStringToDate(dateString: String?): Date? {
             val simpleDateFormat =
-                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             //simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
             return simpleDateFormat.parse(dateString)
         }
@@ -52,7 +52,7 @@ class DateTimeUtils {
         @Throws(ParseException::class)
         fun formatLongToDate(date: Long?): Date? {
             val simpleDateFormat =
-                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
             val dateString = simpleDateFormat.format(date)
 
