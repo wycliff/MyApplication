@@ -2,11 +2,15 @@ package com.example.myapplication.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.TransitionDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.model.dataSource.network.data.response.CurrentWeather
@@ -18,10 +22,12 @@ import com.example.myapplication.utils.DateTimeUtils.Companion.getDayOfWeek
 
 
 class WeatherListAdapter(
-    private val weatherList: List<CurrentWeather>
+    private val weatherList: List<CurrentWeather>,
+    private val currentWeatherName: String?
 ) : RecyclerView.Adapter<WeatherListAdapter.ViewHolder>() {
 
     private lateinit var context: Context
+    private var backgroundcolors: Array<ColorDrawable>? = null
 //    private var weathersListFiltered: List<CurrentWeather>
 //    init {
 //        this.weatherListFiltered = vehiclesList
@@ -29,6 +35,13 @@ class WeatherListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
+        // Array of background colors
+        backgroundcolors = arrayOf(
+            ColorDrawable(getColor(context, R.color.bg_sunny_secondary)),
+            ColorDrawable(getColor(context, R.color.bg_cloudy_secondary)),
+            ColorDrawable(getColor(context, R.color.bg_rainy_secondary))
+        )
+
         val v = LayoutInflater.from(context).inflate(R.layout.row_weather_item, parent, false)
 
         return ViewHolder(v)
@@ -42,22 +55,34 @@ class WeatherListAdapter(
         holder.tvTemp.text =
             "${weatherItem.main?.temp.toString()}${context.getString(R.string.text_degrees)}"
 
-        when (weatherItem.weather?.get(0)?.main) {
+
+        when (currentWeatherName) {
             CLOUDY -> {
-                holder.weatherIcon.setImageDrawable(context.getDrawable(R.drawable.ic_cloudy))
+                val transition = TransitionDrawable(backgroundcolors)
+                holder.cvWeather.background = transition.getDrawable(1)
             }
 
             SUNNY -> {
-                holder.weatherIcon.setImageDrawable(context.getDrawable(R.drawable.ic_clear))
+                val transition = TransitionDrawable(backgroundcolors)
+                holder.cvWeather.background = transition.getDrawable(0)
             }
 
             RAINY -> {
-                holder.weatherIcon.setImageDrawable(context.getDrawable(R.drawable.ic_rainy))
+                val transition = TransitionDrawable(backgroundcolors)
+                holder.cvWeather.background = transition.getDrawable(3)
             }
 
             else -> {
-                holder.weatherIcon.setImageDrawable(context.getDrawable(R.drawable.ic_clear))
+                val transition = TransitionDrawable(backgroundcolors)
+                holder.cvWeather.background = transition.getDrawable(0)
             }
+        }
+
+        when (weatherItem.weather?.get(0)?.main) {
+            CLOUDY -> holder.weatherIcon.setImageDrawable(context.getDrawable(R.drawable.ic_cloudy))
+            SUNNY -> holder.weatherIcon.setImageDrawable(context.getDrawable(R.drawable.ic_clear))
+            RAINY -> holder.weatherIcon.setImageDrawable(context.getDrawable(R.drawable.ic_rainy))
+            else -> holder.weatherIcon.setImageDrawable(context.getDrawable(R.drawable.ic_clear))
         }
     }
 
@@ -70,6 +95,7 @@ class WeatherListAdapter(
         val tvWeekDay: TextView = itemView.findViewById(R.id.tv_week_day)
         val weatherIcon: ImageView = itemView.findViewById(R.id.iv_weather_icon)
         val tvTemp: TextView = itemView.findViewById(R.id.tv_temp)
+        val cvWeather: ConstraintLayout = itemView.findViewById(R.id.cv_weather_container)
     }
 
 //    override fun getFilter(): Filter {

@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentSender
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.TransitionDrawable
 import android.location.Location
 import android.net.Uri
 import android.os.Build
@@ -16,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
@@ -23,6 +26,7 @@ import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.model.dataSource.network.data.response.CurrentWeather
 import com.example.myapplication.model.dataSource.network.data.response.FiveDayWeather
 import com.example.myapplication.utils.AppUtil.hasGps
+import com.example.myapplication.utils.Constants
 import com.example.myapplication.utils.Constants.Companion.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
 import com.example.myapplication.utils.Constants.Companion.REQUEST_CHECK_SETTINGS
 import com.example.myapplication.utils.Constants.Companion.UPDATE_INTERVAL_IN_MILLISECONDS
@@ -64,10 +68,14 @@ class MainActivity : AppCompatActivity() {
     private var currentLatLng: LatLng? = null
     private var currentLocation: Location? = null
     private lateinit var locationSettingsRequest: LocationSettingsRequest
+    private var backgroundcolors: Array<ColorDrawable>? = null
+    private var transition: TransitionDrawable? = null
+    private var currentWeatherName : String? = null
 
     //RecyclerView
     private var layoutManager: LinearLayoutManager? = null
     private lateinit var weatherAdapter: WeatherListAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +85,15 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
         supportActionBar?.hide()
+
+        // Array of background colors
+        backgroundcolors = arrayOf(
+            ColorDrawable(getColor(this, R.color.bg_sunny_secondary)),
+            ColorDrawable(getColor(this, R.color.bg_cloudy_secondary)),
+            ColorDrawable(getColor(this, R.color.bg_rainy_secondary))
+        )
+        transition = TransitionDrawable(backgroundcolors)
+
         initViews()
 
         requestingLocationUpdates = false
@@ -111,13 +128,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onFiveDayWeatherChanged(fiveDayWeather: FiveDayWeather) {
-        Timber.e("GETTING HERE FOREST: "+fiveDayWeather.list?.size)
         fiveDayWeather.list?.let {
             setUpRecyclerView(it)
         }
     }
 
     private fun onCurrentWeather(currentWeather: CurrentWeather) {
+        currentWeatherName = currentWeather.weather?.get(0)?.main
 
         binding?.tvTemp?.text =
             "${currentWeather.main?.temp.toString()}${getString(R.string.text_degrees)}"
@@ -134,12 +151,45 @@ class MainActivity : AppCompatActivity() {
             currentLocation?.latitude.toString(),
             currentLocation?.longitude.toString()
         )
+
+        when (currentWeather.weather?.get(0)?.main) {
+            Constants.CLOUDY -> {
+                _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_cloudy)
+                _binding?.llBackground?.background = transition?.getDrawable(1)
+                _binding?.clWeather?.background = transition?.getDrawable(1)
+                transition?.startTransition(2000)
+            }
+
+            Constants.SUNNY -> {
+                _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_sunny)
+                _binding?.llBackground?.background = transition?.getDrawable(0)
+                _binding?.clWeather?.background = transition?.getDrawable(0)
+                transition?.startTransition(2000)
+
+            }
+
+            Constants.RAINY -> {
+                _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_sunny)
+                _binding?.llBackground?.background = transition?.getDrawable(3)
+                _binding?.clWeather?.background = transition?.getDrawable(3)
+                transition?.startTransition(2000)
+            }
+
+            else -> {
+                _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_sunny)
+                val transition = TransitionDrawable(backgroundcolors)
+                _binding?.llBackground?.background = transition.getDrawable(0)
+                _binding?.clWeather?.background = transition.getDrawable(0)
+                transition.startTransition(2000)
+            }
+        }
     }
 
     private fun setUpRecyclerView(weatherItemsArray: List<CurrentWeather>) {
         weatherAdapter =
             WeatherListAdapter(
-                weatherItemsArray
+                weatherItemsArray,
+                currentWeatherName
             )
         layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
