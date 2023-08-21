@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
 
         binding?.tvTemp?.text =
             "${currentWeather.main?.temp.toString()}${getString(R.string.text_degrees)}"
-        binding?.tvWeather?.text = currentWeather.weather?.get(0)?.main?.uppercase(Locale.ROOT)
+
 
         binding?.tvMinTemp?.text =
             "${currentWeather.main?.tempMin.toString()}${getString(R.string.text_degrees)}"
@@ -156,7 +156,8 @@ class MainActivity : AppCompatActivity() {
 
         when (currentWeather.weather?.get(0)?.main) {
             Constants.CLOUDY -> {
-                _binding?.llTerrain?.background = getDrawable(com.example.myapplication.R.drawable.bg_forest_cloudy)
+                binding?.tvWeather?.text = getString(R.string.text_cloudy)
+                _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_cloudy)
                 _binding?.llBackground?.background = transition?.getDrawable(1)
                 _binding?.clWeather?.background = transition?.getDrawable(1)
                 transition?.startTransition(2000)
@@ -168,6 +169,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             Constants.SUNNY -> {
+                binding?.tvWeather?.text = getString(R.string.text_sunny)
                 _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_sunny)
                 _binding?.llBackground?.background = transition?.getDrawable(0)
                 _binding?.clWeather?.background = transition?.getDrawable(0)
@@ -181,6 +183,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             Constants.RAINY -> {
+                binding?.tvWeather?.text = getString(R.string.text_rainy)
                 _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_sunny)
                 _binding?.llBackground?.background = transition?.getDrawable(3)
                 _binding?.clWeather?.background = transition?.getDrawable(3)

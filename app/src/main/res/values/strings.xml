@@ -12,4 +12,8 @@
     <string name="text_current">current</string>
     <string name="text_max">max</string>
 
+    <string name="text_cloudy">CLOUDY</string>
+    <string name="text_sunny">SUNNY</string>
+    <string name="text_rainy">RAINY</string>
+
 </resources>
