@@ -13,6 +13,8 @@ import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.view.Window
+import android.view.WindowManager
+
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -154,10 +156,15 @@ class MainActivity : AppCompatActivity() {
 
         when (currentWeather.weather?.get(0)?.main) {
             Constants.CLOUDY -> {
-                _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_cloudy)
+                _binding?.llTerrain?.background = getDrawable(com.example.myapplication.R.drawable.bg_forest_cloudy)
                 _binding?.llBackground?.background = transition?.getDrawable(1)
                 _binding?.clWeather?.background = transition?.getDrawable(1)
                 transition?.startTransition(2000)
+
+                //change statusBar color
+                val window = this.window
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor = getColor(this,R.color.bg_cloudy_secondary)
             }
 
             Constants.SUNNY -> {
@@ -166,6 +173,11 @@ class MainActivity : AppCompatActivity() {
                 _binding?.clWeather?.background = transition?.getDrawable(0)
                 transition?.startTransition(2000)
 
+                //change statusBar color
+                val window = this.window
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor = getColor(this,R.color.bg_sunny_secondary)
+
             }
 
             Constants.RAINY -> {
@@ -173,14 +185,23 @@ class MainActivity : AppCompatActivity() {
                 _binding?.llBackground?.background = transition?.getDrawable(3)
                 _binding?.clWeather?.background = transition?.getDrawable(3)
                 transition?.startTransition(2000)
+
+                //change statusBar color
+                val window = this.window
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor = getColor(this,R.color.bg_rainy_secondary)
             }
 
             else -> {
                 _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_sunny)
-                val transition = TransitionDrawable(backgroundcolors)
-                _binding?.llBackground?.background = transition.getDrawable(0)
-                _binding?.clWeather?.background = transition.getDrawable(0)
-                transition.startTransition(2000)
+                _binding?.llBackground?.background = transition?.getDrawable(0)
+                _binding?.clWeather?.background = transition?.getDrawable(0)
+                transition?.startTransition(2000)
+
+                //change statusBar color
+                val window = this.window
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.statusBarColor = getColor(this,R.color.bg_cloudy_secondary)
             }
         }
     }
