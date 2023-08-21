@@ -36,7 +36,7 @@ class WeatherNetworkDataSourceImpl @Inject constructor(
             long = long,
             appId = BuildConfig.API_KEY,
             units = METRIC,
-            count = 20
+            count = 40
         )
     }
 }
