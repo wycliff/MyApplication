@@ -15,5 +15,6 @@
     <string name="text_cloudy">CLOUDY</string>
     <string name="text_sunny">SUNNY</string>
     <string name="text_rainy">RAINY</string>
+    <string name="text_fetching">Fetching data...</string>
 
 </resources>
