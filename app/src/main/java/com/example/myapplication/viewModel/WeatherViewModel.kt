@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.R
-import com.example.myapplication.di.IoDispatcher
 import com.example.myapplication.model.dataSource.network.data.response.CurrentWeather
 import com.example.myapplication.model.dataSource.network.data.response.FiveDayWeather
 import com.example.myapplication.model.repository.abstraction.IWeatherRepository
@@ -14,7 +13,6 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -57,7 +55,6 @@ class WeatherViewModel @Inject constructor(
                 }
 
                 is NetworkResponse.ServerError -> {
-                    Timber.e("ERROR_SERVER")
                     _state.postValue(
                         MainViewState.Error(
                             result.body?.message, null, null
@@ -66,7 +63,6 @@ class WeatherViewModel @Inject constructor(
                 }
 
                 is NetworkResponse.NetworkError -> {
-                    Timber.e("ERROR_NETWORK")
                     _state.postValue(
                         MainViewState.Error(
                              null,
