@@ -66,7 +66,7 @@ class WeatherListAdapter(
 
             RAINY -> {
                 val transition = TransitionDrawable(backGroundColors)
-                holder.cvWeather.background = transition.getDrawable(3)
+                holder.cvWeather.background = transition.getDrawable(2)
             }
 
             else -> {

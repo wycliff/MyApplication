@@ -23,6 +23,6 @@ interface WeatherApiInterface {
         @Query("lat") lat: String?,
         @Query("lon") long: String?,
         @Query("appid") appId: String?,
-        @Query("units") units: String?,
+        @Query("units") units: String?
     ): NetworkResponse<FiveDayWeather, ErrorResponse>
 }

@@ -234,9 +234,9 @@ class MainActivity : AppCompatActivity() {
 
             Constants.RAINY -> {
                 binding?.tvWeather?.text = getString(R.string.text_rainy)
-                _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_sunny)
-                _binding?.llBackground?.background = transition?.getDrawable(3)
-                _binding?.clWeather?.background = transition?.getDrawable(3)
+                _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_rainy)
+                _binding?.llBackground?.background = transition?.getDrawable(2)
+                _binding?.clWeather?.background = transition?.getDrawable(2)
                 transition?.startTransition(2000)
 
                 //change statusBar color
