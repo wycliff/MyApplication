@@ -30,39 +30,11 @@ class DateTimeUtils {
             }
         }
 
-        fun getTomorrowsDate(): Date? {
-            val cal = Calendar.getInstance()
-            cal.add(Calendar.DATE, +1)
-            return cal.time
-        }
-
-        fun formatApiDateTime(date: Date?): String {
-            val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            return dateTimeFormat.format(date)
-        }
-
         @Throws(ParseException::class)
         fun formatStringToDate(dateString: String?): Date? {
             val simpleDateFormat =
                 SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             //simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
-            return simpleDateFormat.parse(dateString)
-        }
-
-        @Throws(ParseException::class)
-        fun formatLongToDate(date: Long?): Date? {
-            val simpleDateFormat =
-                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            simpleDateFormat.timeZone = TimeZone.getTimeZone("UTC")
-            val dateString = simpleDateFormat.format(date)
-
-            return simpleDateFormat.parse(dateString)
-        }
-
-        @Throws(ParseException::class)
-        fun formatReadableStringToDate(dateString: String?): Date? {
-            val simpleDateFormat =
-                SimpleDateFormat("d MMMM yyyy", Locale.getDefault())
             return simpleDateFormat.parse(dateString)
         }
 
@@ -76,6 +48,15 @@ class DateTimeUtils {
             val sdf = SimpleDateFormat("EEEE")
             val d = date
             return sdf.format(d)
+        }
+
+
+        fun getTime(date: Date?): Int {
+            val cal = Calendar.getInstance()
+            if (date != null) {
+                cal.time = date
+            }
+            return cal.get(Calendar.HOUR_OF_DAY)
         }
     }
 }

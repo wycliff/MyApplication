@@ -31,6 +31,9 @@ import com.example.myapplication.utils.Constants
 import com.example.myapplication.utils.Constants.Companion.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
 import com.example.myapplication.utils.Constants.Companion.REQUEST_CHECK_SETTINGS
 import com.example.myapplication.utils.Constants.Companion.UPDATE_INTERVAL_IN_MILLISECONDS
+import com.example.myapplication.utils.DateTimeUtils.Companion.formatStringToDate
+import com.example.myapplication.utils.DateTimeUtils.Companion.getDayOfWeek
+import com.example.myapplication.utils.DateTimeUtils.Companion.getTime
 import com.example.myapplication.utils.Permissions.REQUEST_CODE_LOCATION_PERMISSIONS
 import com.example.myapplication.utils.Permissions.locationPermissionGranted
 import com.example.myapplication.utils.observe
@@ -48,6 +51,7 @@ import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import java.util.Date
 
 
 @AndroidEntryPoint
@@ -133,20 +137,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun filterUniqueDates(weatherList: List<CurrentWeather>?): ArrayList<CurrentWeather>? {
-        var filteredWeatherList: ArrayList<CurrentWeather>? = arrayListOf()
+    private fun filterUniqueDates(weatherList: List<CurrentWeather>?): ArrayList<CurrentWeather> {
+        val filteredWeatherList: ArrayList<CurrentWeather> = arrayListOf()
         val map = hashMapOf<String, CurrentWeather>()
+        val currentDate = Date()
 
         if (weatherList != null) {
             for (row in weatherList) {
-                //todo: create hashmap
+                val date = formatStringToDate(row.date)
+                val day = getDayOfWeek(date)
 
-                filteredWeatherList?.add(row)
+                //exclude today's forecasts
+                if (getDayOfWeek(currentDate) != day) {
+
+                    //Only midday temperatures
+                    if (getTime(date) == 12) {
+                        if (!map.containsKey(day)) {
+                            map[day] = row
+                        }
+                    }
+                }
+            }
+
+            for ((k, v) in map) {
+               filteredWeatherList.add(v)
             }
         }
+
         return filteredWeatherList
     }
 
+    @SuppressLint("SetTextI18n")
     private fun onCurrentWeather(currentWeather: CurrentWeather) {
         currentWeatherName = currentWeather.weather?.get(0)?.main
 
@@ -224,7 +245,7 @@ class MainActivity : AppCompatActivity() {
     private fun setUpRecyclerView(weatherItemsArray: List<CurrentWeather>) {
         weatherAdapter =
             WeatherListAdapter(
-                weatherItemsArray,
+                filterUniqueDates(weatherItemsArray),
                 currentWeatherName
             )
         layoutManager =

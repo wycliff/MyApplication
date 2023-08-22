@@ -22,7 +22,7 @@ import com.example.myapplication.utils.DateTimeUtils.Companion.getDayOfWeek
 
 
 class WeatherListAdapter(
-    private val weatherList: List<CurrentWeather>,
+    private val weatherList: ArrayList<CurrentWeather>,
     private val currentWeatherName: String?
 ) : RecyclerView.Adapter<WeatherListAdapter.ViewHolder>() {
 
