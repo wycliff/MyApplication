@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
@@ -19,6 +20,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +30,7 @@ import com.example.myapplication.model.dataSource.network.data.response.CurrentW
 import com.example.myapplication.model.dataSource.network.data.response.FiveDayWeather
 import com.example.myapplication.utils.AppUtil.hasGps
 import com.example.myapplication.utils.AppUtil.roundDown
+import com.example.myapplication.utils.AppUtil.snackBar
 import com.example.myapplication.utils.Constants
 import com.example.myapplication.utils.Constants.Companion.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
 import com.example.myapplication.utils.Constants.Companion.REQUEST_CHECK_SETTINGS
@@ -207,7 +210,7 @@ class MainActivity : AppCompatActivity() {
         when (currentWeather.weather?.get(0)?.main) {
             Constants.CLOUDY -> {
                 binding?.tvWeather?.text = getString(R.string.text_cloudy)
-                _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_cloudy)
+                _binding?.llTerrain?.background = ContextCompat.getDrawable(this,R.drawable.bg_forest_cloudy)
                 _binding?.llBackground?.background = transition?.getDrawable(1)
                 _binding?.clWeather?.background = transition?.getDrawable(1)
                 transition?.startTransition(2000)
@@ -220,7 +223,7 @@ class MainActivity : AppCompatActivity() {
 
             Constants.SUNNY -> {
                 binding?.tvWeather?.text = getString(R.string.text_sunny)
-                _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_sunny)
+                _binding?.llTerrain?.background = ContextCompat.getDrawable(this,R.drawable.bg_forest_sunny)
                 _binding?.llBackground?.background = transition?.getDrawable(0)
                 _binding?.clWeather?.background = transition?.getDrawable(0)
                 transition?.startTransition(2000)
@@ -234,7 +237,7 @@ class MainActivity : AppCompatActivity() {
 
             Constants.RAINY -> {
                 binding?.tvWeather?.text = getString(R.string.text_rainy)
-                _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_rainy)
+                _binding?.llTerrain?.background = ContextCompat.getDrawable(this,R.drawable.bg_forest_rainy)
                 _binding?.llBackground?.background = transition?.getDrawable(2)
                 _binding?.clWeather?.background = transition?.getDrawable(2)
                 transition?.startTransition(2000)
@@ -246,7 +249,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             else -> {
-                _binding?.llTerrain?.background = getDrawable(R.drawable.bg_forest_sunny)
+                _binding?.llTerrain?.background = ContextCompat.getDrawable(this,R.drawable.bg_forest_sunny)
                 _binding?.llBackground?.background = transition?.getDrawable(0)
                 _binding?.clWeather?.background = transition?.getDrawable(0)
                 transition?.startTransition(2000)
@@ -273,7 +276,22 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onViewStateChanged(state: MainViewState) {
+        when (state) {
+            is MainViewState.Success -> {
+                _binding?.tvWeather?.visibility = View.VISIBLE
+            }
 
+            is MainViewState.Error -> {
+                if (_binding?.tvWeather?.text == getString(R.string.text_fetching)) {
+                    val message = state.stringResourceId?.let { getString(it) }
+                    showSnackBar(message)
+                    //_binding?.tvWeather?.visibility = View.GONE
+                }
+            }
+
+            else -> {
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -471,5 +489,14 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+
+    private fun showSnackBar(message: String?) {
+        binding?.root?.let {
+            this.snackBar(
+                it,
+                message
+            )
+        }
     }
 }

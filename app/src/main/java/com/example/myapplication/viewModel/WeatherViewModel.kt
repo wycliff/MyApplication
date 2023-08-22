@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.R
 import com.example.myapplication.di.IoDispatcher
 import com.example.myapplication.model.dataSource.network.data.response.CurrentWeather
 import com.example.myapplication.model.dataSource.network.data.response.FiveDayWeather
@@ -56,18 +57,20 @@ class WeatherViewModel @Inject constructor(
                 }
 
                 is NetworkResponse.ServerError -> {
+                    Timber.e("ERROR_SERVER")
                     _state.postValue(
                         MainViewState.Error(
-                            null, result.body?.message, null
+                            result.body?.message, null, null
                         )
                     )
                 }
 
                 is NetworkResponse.NetworkError -> {
+                    Timber.e("ERROR_NETWORK")
                     _state.postValue(
                         MainViewState.Error(
-                            result.error.message,
-                            null,
+                             null,
+                            R.string.error_network,
                             null
                         )
                     )
@@ -76,8 +79,8 @@ class WeatherViewModel @Inject constructor(
                 is NetworkResponse.UnknownError -> {
                     _state.postValue(
                         MainViewState.Error(
-                            "Something went wrong please try again later",
                             null,
+                            R.string.error_generic,
                             null
                         )
                     )
@@ -107,7 +110,7 @@ class WeatherViewModel @Inject constructor(
                 is NetworkResponse.ServerError -> {
                     _state.postValue(
                         MainViewState.Error(
-                            null, result.body?.message, null
+                            result.body?.message, null, null
                         )
                     )
                 }
@@ -115,8 +118,8 @@ class WeatherViewModel @Inject constructor(
                 is NetworkResponse.NetworkError -> {
                     _state.postValue(
                         MainViewState.Error(
-                            result.error.message,
                             null,
+                            R.string.error_network,
                             null
                         )
                     )
@@ -125,8 +128,8 @@ class WeatherViewModel @Inject constructor(
                 is NetworkResponse.UnknownError -> {
                     _state.postValue(
                         MainViewState.Error(
-                            "Something went wrong please try again later",
                             null,
+                            R.string.error_generic,
                             null
                         )
                     )

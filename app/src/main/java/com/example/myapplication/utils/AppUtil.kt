@@ -3,6 +3,12 @@ package com.example.myapplication.utils
 import android.app.Activity
 import android.content.Context
 import android.location.LocationManager
+import android.view.View
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import com.example.myapplication.R
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import timber.log.Timber
 import kotlin.math.roundToInt
 
@@ -29,5 +35,28 @@ object AppUtil {
 
     fun roundDown(double: Double): Double {
         return (double * 1000).roundToInt().toDouble() / 1000
+    }
+
+    /**
+     * Shows [SnackBar] with provided message
+     * @param view - The parent view to attach the SnackBar to
+     * @param message - Message to display
+     * @param backgroundTint - Tint to apply to SnackBar, default is red
+     */
+    fun Context.snackBar(view: View, message: String?, backgroundTint: Int = R.color.error_color) {
+        if (message.isNullOrEmpty()) return
+
+        val snackBar = Snackbar.make(view, message, BaseTransientBottomBar.LENGTH_LONG)
+            .apply {
+                this.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+                    ?.apply {
+                        maxLines = 5
+                        textSize = 15F
+                        isSingleLine = false
+                    }
+            }
+        snackBar.setBackgroundTint(ContextCompat.getColor(this, backgroundTint))
+        snackBar.setTextColor(ContextCompat.getColor(this, R.color.white))
+        snackBar.show()
     }
 }

@@ -17,7 +17,7 @@ sealed class MainViewState {
      */
     data class Error(
         val errorMessage: String?,
-        val stringResourceId: String?,
+        val stringResourceId: Int?,
         val errorCode: Int?,
     ) : MainViewState()
 

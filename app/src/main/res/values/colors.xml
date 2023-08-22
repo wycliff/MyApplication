@@ -11,4 +11,6 @@
     <color name="bg_cloudy">#A4BCBC</color>
     <color name="bg_rainy">#5A5A5E</color>
 
+    <color name="error_color">#9B101C</color>
+
 </resources>
