@@ -175,6 +175,10 @@ class MainActivity : AppCompatActivity() {
             for ((k, v) in map) {
                 filteredWeatherList.add(v)
             }
+
+            //exclude today's data if the next five days are available
+            if (filteredWeatherList.size > 5)
+                filteredWeatherList.removeAt(0)
         }
 
         return filteredWeatherList
