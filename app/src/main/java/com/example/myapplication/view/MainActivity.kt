@@ -14,7 +14,6 @@ import android.os.Looper
 import android.provider.Settings
 import android.view.Window
 import android.view.WindowManager
-
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -49,7 +48,6 @@ import com.google.android.gms.location.SettingsClient
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import java.util.Locale
 
 
 @AndroidEntryPoint
@@ -72,7 +70,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var locationSettingsRequest: LocationSettingsRequest
     private var backgroundcolors: Array<ColorDrawable>? = null
     private var transition: TransitionDrawable? = null
-    private var currentWeatherName : String? = null
+    private var currentWeatherName: String? = null
 
     //RecyclerView
     private var layoutManager: LinearLayoutManager? = null
@@ -135,6 +133,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun filterUniqueDates(weatherList: List<CurrentWeather>?): ArrayList<CurrentWeather>? {
+        var filteredWeatherList: ArrayList<CurrentWeather>? = arrayListOf()
+        val map = hashMapOf<String, CurrentWeather>()
+
+        if (weatherList != null) {
+            for (row in weatherList) {
+                //todo: create hashmap
+
+                filteredWeatherList?.add(row)
+            }
+        }
+        return filteredWeatherList
+    }
+
     private fun onCurrentWeather(currentWeather: CurrentWeather) {
         currentWeatherName = currentWeather.weather?.get(0)?.main
 
@@ -165,7 +177,7 @@ class MainActivity : AppCompatActivity() {
                 //change statusBar color
                 val window = this.window
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                window.statusBarColor = getColor(this,R.color.bg_cloudy_secondary)
+                window.statusBarColor = getColor(this, R.color.bg_cloudy_secondary)
             }
 
             Constants.SUNNY -> {
@@ -178,7 +190,7 @@ class MainActivity : AppCompatActivity() {
                 //change statusBar color
                 val window = this.window
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                window.statusBarColor = getColor(this,R.color.bg_sunny_secondary)
+                window.statusBarColor = getColor(this, R.color.bg_sunny_secondary)
 
             }
 
@@ -192,7 +204,7 @@ class MainActivity : AppCompatActivity() {
                 //change statusBar color
                 val window = this.window
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                window.statusBarColor = getColor(this,R.color.bg_rainy_secondary)
+                window.statusBarColor = getColor(this, R.color.bg_rainy_secondary)
             }
 
             else -> {
@@ -204,7 +216,7 @@ class MainActivity : AppCompatActivity() {
                 //change statusBar color
                 val window = this.window
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                window.statusBarColor = getColor(this,R.color.bg_cloudy_secondary)
+                window.statusBarColor = getColor(this, R.color.bg_cloudy_secondary)
             }
         }
     }
@@ -294,7 +306,7 @@ class MainActivity : AppCompatActivity() {
                 this.startActivity(i)
             }
             val dialog = builder.create()
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) //before
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.show()
         } else if (!hasGps(this)) {
             val builder = AlertDialog.Builder(this@MainActivity)

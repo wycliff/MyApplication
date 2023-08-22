@@ -27,16 +27,13 @@ class WeatherListAdapter(
 ) : RecyclerView.Adapter<WeatherListAdapter.ViewHolder>() {
 
     private lateinit var context: Context
-    private var backgroundcolors: Array<ColorDrawable>? = null
-//    private var weathersListFiltered: List<CurrentWeather>
-//    init {
-//        this.weatherListFiltered = vehiclesList
-//    }
+    private var backGroundColors: Array<ColorDrawable>? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
         // Array of background colors
-        backgroundcolors = arrayOf(
+        backGroundColors = arrayOf(
             ColorDrawable(getColor(context, R.color.bg_sunny_secondary)),
             ColorDrawable(getColor(context, R.color.bg_cloudy_secondary)),
             ColorDrawable(getColor(context, R.color.bg_rainy_secondary))
@@ -58,22 +55,22 @@ class WeatherListAdapter(
 
         when (currentWeatherName) {
             CLOUDY -> {
-                val transition = TransitionDrawable(backgroundcolors)
+                val transition = TransitionDrawable(backGroundColors)
                 holder.cvWeather.background = transition.getDrawable(1)
             }
 
             SUNNY -> {
-                val transition = TransitionDrawable(backgroundcolors)
+                val transition = TransitionDrawable(backGroundColors)
                 holder.cvWeather.background = transition.getDrawable(0)
             }
 
             RAINY -> {
-                val transition = TransitionDrawable(backgroundcolors)
+                val transition = TransitionDrawable(backGroundColors)
                 holder.cvWeather.background = transition.getDrawable(3)
             }
 
             else -> {
-                val transition = TransitionDrawable(backgroundcolors)
+                val transition = TransitionDrawable(backGroundColors)
                 holder.cvWeather.background = transition.getDrawable(0)
             }
         }
@@ -97,38 +94,4 @@ class WeatherListAdapter(
         val tvTemp: TextView = itemView.findViewById(R.id.tv_temp)
         val cvWeather: ConstraintLayout = itemView.findViewById(R.id.cv_weather_container)
     }
-
-//    override fun getFilter(): Filter {
-//        return object : Filter() {
-//            override fun performFiltering(charSequence: CharSequence): FilterResults {
-//                val charString = charSequence.toString()
-//                vehiclesListFiltered = if (charString.isEmpty()) {
-//                    vehiclesList
-//                } else {
-//                    val filteredList = ArrayList<Vehicle>()
-//                    for (row in vehiclesList) {
-//                        if (row.registrationNumber?.lowercase(Locale.getDefault())?.contains(
-//                                charString.lowercase(
-//                                    Locale.getDefault()
-//                                )
-//                            ) == true
-//                        ) {
-//                            filteredList.add(row)
-//                        }
-//                    }
-//
-//                    filteredList
-//                }
-//
-//                val filterResults = FilterResults()
-//                filterResults.values = vehiclesListFiltered
-//                return filterResults
-//            }
-//
-//            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-//                vehiclesListFiltered = filterResults.values as MutableList<Vehicle>
-//                notifyDataSetChanged()
-//            }
-//        }
-//    }
 }
