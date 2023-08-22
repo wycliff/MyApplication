@@ -24,6 +24,5 @@ interface WeatherApiInterface {
         @Query("lon") long: String?,
         @Query("appid") appId: String?,
         @Query("units") units: String?,
-        @Query("cnt") count: Int?,
     ): NetworkResponse<FiveDayWeather, ErrorResponse>
 }

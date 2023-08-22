@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.location.LocationManager
 import timber.log.Timber
+import kotlin.math.roundToInt
 
 object AppUtil {
     fun hasGps(activity: Activity): Boolean {
@@ -24,5 +25,9 @@ object AppUtil {
         }
 
         return gpsEnabled && networkEnabled
+    }
+
+    fun roundDown(double: Double): Double {
+        return (double * 1000).roundToInt().toDouble() / 1000
     }
 }

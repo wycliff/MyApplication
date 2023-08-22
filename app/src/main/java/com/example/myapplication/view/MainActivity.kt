@@ -27,6 +27,7 @@ import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.model.dataSource.network.data.response.CurrentWeather
 import com.example.myapplication.model.dataSource.network.data.response.FiveDayWeather
 import com.example.myapplication.utils.AppUtil.hasGps
+import com.example.myapplication.utils.AppUtil.roundDown
 import com.example.myapplication.utils.Constants
 import com.example.myapplication.utils.Constants.Companion.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS
 import com.example.myapplication.utils.Constants.Companion.REQUEST_CHECK_SETTINGS
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
     private var currentLatLng: LatLng? = null
-    private var currentLocation: Location? = null
+    private var savedLocation: Location? = null
     private lateinit var locationSettingsRequest: LocationSettingsRequest
     private var backgroundcolors: Array<ColorDrawable>? = null
     private var transition: TransitionDrawable? = null
@@ -121,6 +122,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getCurrentWeather(
+            savedLocation?.latitude.toString(),
+            savedLocation?.longitude.toString()
+        )
+    }
+
     private fun initViews() {
         addObservers()
     }
@@ -139,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun filterUniqueDates(weatherList: List<CurrentWeather>?): ArrayList<CurrentWeather> {
         val filteredWeatherList: ArrayList<CurrentWeather> = arrayListOf()
-        val map = hashMapOf<String, CurrentWeather>()
+        val map = linkedMapOf<String, CurrentWeather>()
         val currentDate = Date()
 
         if (weatherList != null) {
@@ -147,9 +156,13 @@ class MainActivity : AppCompatActivity() {
                 val date = formatStringToDate(row.date)
                 val day = getDayOfWeek(date)
 
-                //exclude today's forecasts
+                //today's forecasts
                 if (getDayOfWeek(currentDate) != day) {
-
+                    //current time
+                    if (!map.containsKey(day)) {
+                        map[day] = row
+                    }
+                } else {
                     //Only midday temperatures
                     if (getTime(date) == 12) {
                         if (!map.containsKey(day)) {
@@ -160,7 +173,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             for ((k, v) in map) {
-               filteredWeatherList.add(v)
+                filteredWeatherList.add(v)
             }
         }
 
@@ -183,8 +196,8 @@ class MainActivity : AppCompatActivity() {
             "${currentWeather.main?.tempMax.toString()}${getString(R.string.text_degrees)}"
 
         viewModel.getFiveDayWeather(
-            currentLocation?.latitude.toString(),
-            currentLocation?.longitude.toString()
+            savedLocation?.latitude.toString(),
+            savedLocation?.longitude.toString()
         )
 
         when (currentWeather.weather?.get(0)?.main) {
@@ -373,13 +386,26 @@ class MainActivity : AppCompatActivity() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
-                currentLocation = locationResult.lastLocation
+
                 currentLatLng = locationResult.lastLocation?.latitude?.let { lat ->
                     locationResult.lastLocation?.longitude?.let { long ->
 
-                        val latitude = lat.toString()
-                        val longitude = long.toString()
-                        viewModel.getCurrentWeather(latitude, longitude)
+                        val latitude = roundDown(lat).toString()
+                        val longitude = roundDown(long).toString()
+
+                        //in the event that the location changes
+                        Timber.e("LOC_SAVED1" + savedLocation?.latitude?.let { roundDown(it).toString() })
+                        Timber.e("LOC_NOW1" + latitude)
+
+                        Timber.e("LOC_SAVED1" + savedLocation?.longitude?.let { roundDown(it).toString() })
+                        Timber.e("LOC_NOW1" + longitude)
+
+                        if (savedLocation?.latitude?.let { roundDown(it).toString() } != latitude ||
+                            savedLocation?.longitude?.let { roundDown(it).toString() } != longitude
+                        ) {
+                            Timber.e("LOC_API_CALL")
+                            viewModel.getCurrentWeather(latitude, longitude)
+                        }
 
                         LatLng(
                             lat,
@@ -387,6 +413,8 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
                 }
+
+                savedLocation = locationResult.lastLocation
             }
         }
     }
