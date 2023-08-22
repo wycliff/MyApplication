@@ -393,17 +393,10 @@ class MainActivity : AppCompatActivity() {
                         val latitude = roundDown(lat).toString()
                         val longitude = roundDown(long).toString()
 
-                        //in the event that the location changes
-                        Timber.e("LOC_SAVED1" + savedLocation?.latitude?.let { roundDown(it).toString() })
-                        Timber.e("LOC_NOW1" + latitude)
-
-                        Timber.e("LOC_SAVED1" + savedLocation?.longitude?.let { roundDown(it).toString() })
-                        Timber.e("LOC_NOW1" + longitude)
-
+                        //In the event that the location changes
                         if (savedLocation?.latitude?.let { roundDown(it).toString() } != latitude ||
                             savedLocation?.longitude?.let { roundDown(it).toString() } != longitude
                         ) {
-                            Timber.e("LOC_API_CALL")
                             viewModel.getCurrentWeather(latitude, longitude)
                         }
 
