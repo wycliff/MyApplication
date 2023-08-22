@@ -21,8 +21,6 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-//TODO : Clean up
-
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
@@ -56,24 +54,15 @@ object NetworkModule {
             .build()
     }
 
-//    @Provides
-//    fun provideAccessTokenInterceptor(userDao: UserDao): AccessTokenInterceptor =
-//        AccessTokenInterceptor(userDao)
-
-
     @ProvideOkHttpClientAuth
     @Provides
     fun provideOkHttpClientAuth(
         loggingInterceptor: HttpLoggingInterceptor,
-//        accessTokenInterceptor: AccessTokenInterceptor,
-//        acceptLanguageInterceptor: AcceptLanguageInterceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(1, TimeUnit.MINUTES) // connect timeout
             .writeTimeout(1, TimeUnit.MINUTES) // write timeout
-            .readTimeout(1, TimeUnit.MINUTES) //
-          //  .addInterceptor(accessTokenInterceptor)
-          //  .addInterceptor(acceptLanguageInterceptor)
+            .readTimeout(1, TimeUnit.MINUTES)
             .addInterceptor(loggingInterceptor)
             .build()
     }
@@ -89,7 +78,6 @@ object NetworkModule {
         return GsonConverterFactory.create(gson)
     }
 
-
     @Provides
     fun provideRetrofitBuilder(
         @ProvideOkHttpClientAuth okHttpClient: OkHttpClient,
@@ -104,7 +92,6 @@ object NetworkModule {
 
 }
 
-//todo : remove
 class GsonUTCDateAdapter : JsonSerializer<Date?>, JsonDeserializer<Date?> {
     private val dateFormat: DateFormat
 
