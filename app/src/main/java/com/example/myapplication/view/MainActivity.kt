@@ -218,7 +218,7 @@ class MainActivity : AppCompatActivity() {
                 //change statusBar color
                 val window = this.window
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                window.statusBarColor = getColor(this, R.color.bg_cloudy_secondary)
+                window.statusBarColor = getColor(this, R.color.bg_cloudy)
             }
 
             Constants.SUNNY -> {
@@ -231,7 +231,7 @@ class MainActivity : AppCompatActivity() {
                 //change statusBar color
                 val window = this.window
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                window.statusBarColor = getColor(this, R.color.bg_sunny_secondary)
+                window.statusBarColor = getColor(this, R.color.bg_sunny)
 
             }
 
@@ -245,7 +245,7 @@ class MainActivity : AppCompatActivity() {
                 //change statusBar color
                 val window = this.window
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                window.statusBarColor = getColor(this, R.color.bg_rainy_secondary)
+                window.statusBarColor = getColor(this, R.color.bg_rainy)
             }
 
             else -> {
@@ -257,7 +257,7 @@ class MainActivity : AppCompatActivity() {
                 //change statusBar color
                 val window = this.window
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                window.statusBarColor = getColor(this, R.color.bg_cloudy_secondary)
+                window.statusBarColor = getColor(this, R.color.bg_sunny)
             }
         }
     }
