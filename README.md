@@ -41,7 +41,7 @@ Below is an exhaustive list of third-party dependencies used in this project alo
 
 ## Building the Project
 
-1. Clone the repository: `git clone https://github.com/your-username/project-name.git`
+1. Clone the repository: `git@github.com:wycliff/MyApplication.git`
 2. Open the project in Android Studio.
 3. Create API keys:
    - OpenWeatherMap API Key: Sign up at https://openweathermap.org/ to obtain an API key.
