@@ -102,11 +102,9 @@ dependencies {
 
     // Logging dependency
     implementation("com.jakewharton.timber:timber:5.0.1")
-    implementation("com.datadoghq:dd-sdk-android:1.15.0")
 
     //Tests
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
     implementation("junit:junit:4.13.2")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.12.3")
@@ -114,7 +112,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
-    testImplementation("org.robolectric:robolectric:4.7.3")
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
 }
 
