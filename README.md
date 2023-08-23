@@ -57,7 +57,9 @@ Below is an exhaustive list of third-party dependencies used in this project alo
 
 ## Additional Notes
 - Unit testing: Write unit tests using JUnit Jupiter and MockK for critical parts of the codebase to ensure functionality and catch bugs early.
-- Location services: Leverage built-in Google Play Services Location APIs for efficient and accurate location-based services.
 - Logging: Utilize Timber for efficient and customizable logging to aid in debugging and monitoring.
+- Location services: Leverage built-in Google Play Services Location APIs for efficient and accurate location-based services. Location updates occur every 5 to 10 seconds. A new request for the weather is made in the event of a significant change in location and upon certain lifecycle changes in the application.
+The location utilised is accurate up to 3 decimal places from the LocationCallback of the FusedLocation API.
+
 
 Thank you for taking the time to consider this project! If you have any questions or feedback, feel free to contact me.
