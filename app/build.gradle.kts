@@ -102,7 +102,6 @@ dependencies {
 
     // Logging dependency
     implementation("com.jakewharton.timber:timber:5.0.1")
-    implementation("com.datadoghq:dd-sdk-android:1.15.0")
 
     //Tests
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")
