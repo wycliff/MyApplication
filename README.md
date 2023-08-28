@@ -51,7 +51,6 @@ Below is an exhaustive list of third-party dependencies used in this project alo
    - Add the following lines, replacing `<YOUR_API_KEY>` with your actual API keys:
      ```
      WEATHER_API_KEY = <YOUR_API_KEY>
-     // 08ffdaa71cf3f2eb4178d607fb42d93a
      ```
 5. Build and run the project on an emulator or physical device.
 
