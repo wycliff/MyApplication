@@ -46,14 +46,6 @@ object NetworkModule {
             .build()
     }
 
-    @ProvideMapHttpClient
-    @Provides
-    fun provideMapHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
-    }
-
     @ProvideOkHttpClientAuth
     @Provides
     fun provideOkHttpClientAuth(

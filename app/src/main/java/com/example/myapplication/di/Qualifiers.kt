@@ -7,9 +7,6 @@ import javax.inject.Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ProvideOkHttpClient
 
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class ProvideMapHttpClient
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
