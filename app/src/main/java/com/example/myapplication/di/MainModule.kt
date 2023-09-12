@@ -22,7 +22,7 @@ import javax.inject.Singleton
 object MainModule {
     @Provides
     @Singleton
-    fun provideReasonsApiService(
+    fun provideWeatherApiService(
         retrofit: Retrofit,
     ): WeatherApiInterface = retrofit.create(WeatherApiInterface::class.java)
 
