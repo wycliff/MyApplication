@@ -12,7 +12,7 @@ android {
     buildToolsVersion = "32.0.0"
 
     defaultConfig {
-        applicationId = "com.example.myapplication"
+        applicationId = "com.ycliffe.myapplication"
         minSdk = AndroidSdk.min
         targetSdk = AndroidSdk.target
         versionCode = 1
